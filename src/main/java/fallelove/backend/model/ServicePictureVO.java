@@ -1,9 +1,10 @@
-package com.fallelove.backend;
+package fallelove.backend.model;
 
 public class ServicePictureVO implements java.io.Serializable{
 	private Integer servicePicNo;
 	private Integer recordNo;
 	private byte[] servicePic;
+	
 	public Integer getServicePicNo() {
 		return servicePicNo;
 	}
