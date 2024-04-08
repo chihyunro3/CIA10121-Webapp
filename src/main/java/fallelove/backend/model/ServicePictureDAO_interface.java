@@ -8,5 +8,5 @@ public interface ServicePictureDAO_interface {
 	public ServicePictureVO findByPrimaryKey(Integer servicePicNo);
 	public ServicePictureVO findByRecordNo(Integer recordNo);
 	public List<ServicePictureVO> getAll();
-	public List<ServicePictureVO> getAll(Map<String, String[]> map); //複合查詢，用key取得value
+//	public List<ServicePictureVO> getAll(Map<String, String[]> map); //複合查詢，用key取得value
 }

@@ -254,11 +254,11 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 		return list;
 	}
 
-	@Override
-	public List<ServicePictureVO> getAll(Map<String, String[]> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public List<ServicePictureVO> getAll(Map<String, String[]> map) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 	public static byte[] getPictureByteArray(String path) throws IOException {
 		FileInputStream fis = new FileInputStream(path);
