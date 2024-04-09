@@ -77,5 +77,10 @@ public class ServicePicServlet extends HttpServlet{
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneServicPic.jsp
 				successView.forward(req, res);		
 		}
+				
+		
+		
+		
+		
 	}
 }

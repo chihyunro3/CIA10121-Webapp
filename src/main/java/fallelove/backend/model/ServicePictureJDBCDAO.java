@@ -223,9 +223,9 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 				servicePictureVO = new ServicePictureVO();
 				servicePictureVO.setServicePicNo(rs.getInt("servicePicNo"));
 				servicePictureVO.setRecordNo(rs.getInt("recordNo"));
-				if(!(rs.getBytes("servicePic") == null)) {
-					servicePictureVO.setServicePic(rs.getBinaryStream("servicePic").readAllBytes());
-				}
+				servicePictureVO.setServicePic(rs.getBytes("servicePic"));
+				
+				
 				list.add(servicePictureVO);
 			}		
 			
@@ -293,8 +293,16 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 		System.out.println(picVO3.getServicePicNo() + ",");
 		System.out.println(picVO3.getRecordNo() + ",");
 		System.out.println(picVO3.getServicePic() + ","); //印出來的是記憶體位址。
-//		思考1:如何動態取得圖片路徑
-//		思考2:客服紀錄圖片不一定每筆都有，且不一定同筆紀錄只有一張照片，可能有多張，如何依序存取方便動態取得?
+////		思考1:如何動態取得圖片路徑
+////		思考2:客服紀錄圖片不一定每筆都有，且不一定同筆紀錄只有一張照片，可能有多張，如何依序存取方便動態取得?
+		
+		//getAll
+		List<ServicePictureVO> list = dao.getAll();
+		for(var element : list) {
+			System.out.println(element);
+		}
+		
+		
 		
 		
 	}	
