@@ -3,7 +3,8 @@
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
-  ServicePictureVO servicePictureVO = (ServicePictureVO) request.getAttribute("servicePictureVO"); //ServicePicServlet.java(Concroller), 存入req的empVO物件
+  ServicePictureVO servicePictureVO = (ServicePictureVO) request.getAttribute("servicePictureVO"); 
+	//ServicePicServlet.java(Concroller), 存入req的empVO物件
 %>
 <!DOCTYPE html>
 <html>
@@ -61,9 +62,13 @@
 		<th>圖片</th>
 	</tr>
 	<tr>
-		<td><%=servicePictureVO.getServicePicNo()%></td>
-		<td><%=servicePictureVO.getRecordNo()%></td>
-		<td><%=servicePictureVO.getServicePic()%></td>
+		<td>${servicePictureVO.servicePicNo}</td>
+		<td>${servicePictureVO.recordNo}</td>
+		<td>					
+				<c:if test="${servicePictureVO.servicePic != null }">
+					<img src="data:image/png;base64,${Base64.getEncoder().encodeToString(servicePictureVO.servicePic)}" alt="客服圖片" width="100" ; height="100">
+				</c:if>			
+		</td>
 	</tr>
 </table>
 

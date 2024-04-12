@@ -2,6 +2,7 @@ package fallelove.backend.model;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.util.*;
 import java.io.*;
@@ -9,7 +10,7 @@ import java.io.*;
 
 public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/fallElove?serverTimezone=Asia/Taipei";
+	String url = "jdbc:mysql://localhost:3306/fallElove";
 	String userid = "root";
 	String password = "12345";
 	
@@ -20,7 +21,7 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 	private static final String GET_PK_STMT =
 		"SELECT servicePicNo, recordNo, servicePic FROM ServicePicture where servicePicNo = ?;";
 	private static final String GET_RECORD_STMT =
-			"SELECT servicePicNo, recordNo, servicePic FROM ServicePicture where recordNo = ?;";
+		"SELECT servicePicNo, recordNo, servicePic FROM ServicePicture where recordNo = ?;";
 	private static final String UPDATE = 
 		"UPDATE ServicePicture set recordNo=?, servicePic=? where servicePicNo = ?;";
 	
@@ -32,9 +33,9 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 		PreparedStatement pstmt = null;
 		
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(INSERT_STMT);
-//			InputStream in = Files.newInputStream(Path.of("defectdress.jpg"));
 			
 			pstmt.setInt(1, servicePictureVO.getServicePicNo());
 			pstmt.setInt(2, servicePictureVO.getRecordNo());
@@ -72,7 +73,9 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
+		
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(UPDATE);
 			
@@ -117,19 +120,24 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 		ResultSet rs = null;
 		
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(GET_PK_STMT);
 			
 			pstmt.setInt(1, servicePicNo);
 			rs = pstmt.executeQuery();
 			
+			
 			while (rs.next()) {
 				servicePictureVO = new ServicePictureVO();
+				
 				servicePictureVO.setServicePicNo(rs.getInt("servicePicNo"));
 				servicePictureVO.setRecordNo(rs.getInt("recordNo"));
-				if(!(rs.getBytes("servicePic") == null)) {
-					servicePictureVO.setServicePic(rs.getBinaryStream("servicePic").readAllBytes());
-				}				
+				servicePictureVO.setServicePic(rs.getBytes("servicePic"));
+//				InputStream inputStream = rs.getBinaryStream("servicePic");
+//				Files.copy(inputStream, Path.of("pic" + servicePicNo + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
+//				Files.copy(rs.getBytes("servicePic"), Path, StandardCopyOption.REPLACE_EXISTING);
+				
 			}
 		}catch(SQLException se) {
 			throw new RuntimeException("A database error occured." 
@@ -165,6 +173,7 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 		ResultSet rs = null;
 		
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(GET_RECORD_STMT);
 			
@@ -175,9 +184,8 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 				servicePictureVO = new ServicePictureVO();
 				servicePictureVO.setServicePicNo(rs.getInt("servicePicNo"));
 				servicePictureVO.setRecordNo(rs.getInt("recordNo"));
-				if(!(rs.getBytes("servicePic") == null)) {
-					servicePictureVO.setServicePic(rs.getBinaryStream("servicePic").readAllBytes());
-				}
+				servicePictureVO.setServicePic(rs.getBytes("servicePic"));
+				
 			}
 		}catch(SQLException se) {
 			throw new RuntimeException("A database error occured." 
@@ -215,6 +223,7 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 		ResultSet rs = null;
 		
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
@@ -281,20 +290,23 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 
 		
 		//UPDATE
-//		ServicePictureVO picVO2 = new ServicePictureVO();
-//		picVO2.setServicePicNo(26);
-//		picVO2.setRecordNo(3);
-//		picVO2.setServicePic(null);
-//		
-//		dao.update(picVO2);
+		ServicePictureVO picVO2 = new ServicePictureVO();
+		picVO2.setServicePicNo(10);
+		picVO2.setRecordNo(4);
+		picVO2.setServicePic(getPictureByteArray("src/main/webapp/backend/images/defectclothes.jpg"));
+		
+		dao.update(picVO2);
 		
 		//findByPrimaryKey
-		ServicePictureVO picVO3 = dao.findByPrimaryKey(25);
+		ServicePictureVO picVO3 = dao.findByPrimaryKey(10);
 		System.out.println(picVO3.getServicePicNo() + ",");
 		System.out.println(picVO3.getRecordNo() + ",");
-		System.out.println(picVO3.getServicePic() + ","); //印出來的是記憶體位址。
-////		思考1:如何動態取得圖片路徑
-////		思考2:客服紀錄圖片不一定每筆都有，且不一定同筆紀錄只有一張照片，可能有多張，如何依序存取方便動態取得?
+		
+		
+//		System.out.println(picVO3.getServicePic() + ","); //印出來的是記憶體位址。
+		System.out.println("Image saved");
+//		思考1:如何動態取得圖片路徑
+//		思考2:客服紀錄圖片不一定每筆都有，且不一定同筆紀錄只有一張照片，可能有多張，如何依序存取方便動態取得?
 		
 		//getAll
 		List<ServicePictureVO> list = dao.getAll();

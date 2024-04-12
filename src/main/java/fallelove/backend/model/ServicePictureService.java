@@ -3,6 +3,7 @@ package fallelove.backend.model;
 import java.util.List;
 
 public class ServicePictureService {
+	
 	private ServicePictureDAO_interface dao;
 	
 	public ServicePictureService() {
@@ -10,9 +11,9 @@ public class ServicePictureService {
 	}
 	
 	public ServicePictureVO addServicePicture(Integer servicePicNo, Integer recordNo, byte[] servicePic) {
-		ServicePictureJDBCDAO dao = new ServicePictureJDBCDAO();
 		
 		ServicePictureVO servicePictureVO = new ServicePictureVO();
+		
 		servicePictureVO.setServicePicNo(servicePicNo);
 		servicePictureVO.setRecordNo(recordNo);
 		servicePictureVO.setServicePic(servicePic);
@@ -22,20 +23,19 @@ public class ServicePictureService {
 	}
 	
 	public ServicePictureVO updateServicePicture(Integer servicePicNo, Integer recordNo, byte[] servicePic) {
-		ServicePictureJDBCDAO dao = new ServicePictureJDBCDAO();
-		
+			
 		ServicePictureVO servicePictureVO = new ServicePictureVO();
+		
 		servicePictureVO.setServicePicNo(servicePicNo);
 		servicePictureVO.setRecordNo(recordNo);
 		servicePictureVO.setServicePic(servicePic);
-		dao.insert(servicePictureVO);
+		dao.update(servicePictureVO);
 		
 		return servicePictureVO;		
 	}
 	
 	public ServicePictureVO getOneServicePic(Integer servicePicNo) {
-		return dao.findByPrimaryKey(servicePicNo);
-		
+		return dao.findByPrimaryKey(servicePicNo);		
 	}
 	
 	public ServicePictureVO getRecord(Integer recordNo) {

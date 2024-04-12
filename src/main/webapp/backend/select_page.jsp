@@ -54,7 +54,7 @@
   
   
   <li>
-    <FORM METHOD="post" ACTION="servicePic.do" >
+    <FORM METHOD="post" ACTION="servicePic.do">
         <b>輸入客服圖片編號 (如10):</b>
         <input type="text" name="servicePicNo">
         <input type="hidden" name="action" value="getOne_For_Display">
@@ -64,36 +64,38 @@
 
   <jsp:useBean id="servicePicSvc" scope="page" class="fallelove.backend.model.ServicePictureService" />
    
-<!--   <li> -->
-<!--      <FORM METHOD="post" ACTION="servicePic.do" > -->
-<!--        <b>選擇客服圖片編號:</b> -->
-<!--        <select size="1" name="servicePicNo"> -->
-<%--          <c:forEach var="servicePictureVO" items="${servicePicSvc.all}" >  --%>
-<%--           <option value="${servicePictureVO.servicePicNo}">${servicePictureVO.servicePicNo} --%>
-<%--          </c:forEach>    --%>
-<!--        </select> -->
-<!--        <input type="hidden" name="action" value="getOne_For_Display"> -->
-<!--        <input type="submit" value="送出"> -->
-<!--     </FORM> -->
-<!--   </li> -->
+  <li>
+     <FORM METHOD="post" ACTION="servicePic.do" >
+       <b>選擇客服圖片編號:</b>
+       <select size="1" name="servicePicNo">
+         <c:forEach var="servicePictureVO" items="${servicePicSvc.all}" > 
+          <option value="${servicePictureVO.servicePicNo}">${servicePictureVO.servicePicNo}
+         </c:forEach>   
+       </select>
+       <input type="hidden" name="action" value="getOne_For_Display">
+       <input type="submit" value="送出">
+    </FORM>
+  </li>
   
-<!--   <li> -->
-<!--      <FORM METHOD="post" ACTION="servicePic.do" > -->
-<!--        <b>選擇員工姓名:</b> -->
-<!--        <select size="1" name="servicePicNo"> -->
-<%--          <c:forEach var="servicePictureVO" items="${servicePicSvc.all}" >  --%>
-<%--           <option value="${servicePictureVO.servicePicNo}">${servicePictureVO.ename} --%>
-<%--          </c:forEach>    --%>
-<!--        </select> -->
-<!--        <input type="hidden" name="action" value="getOne_For_Display"> -->
-<!--        <input type="submit" value="送出"> -->
-<!--      </FORM> -->
-<!--   </li> -->
+  <li>
+     <FORM METHOD="post" ACTION="servicePic.do" >
+       <b>選擇客服紀錄:</b>
+       <select size="1" name="servicePicNo">
+         <c:forEach var="servicePictureVO" items="${servicePicSvc.all}" > 
+          <option value="${servicePictureVO.servicePicNo}">${servicePictureVO.recordNo}
+         </c:forEach>   
+       </select>
+       <input type="hidden" name="action" value="getOne_For_Display">
+       <input type="submit" value="送出">
+     </FORM>
+  </li>
 </ul>
 
+<h3>員工管理</h3>
 
-
-<body>
+<ul>
+  <li><a href='addSerivcePic.jsp'>Add</a> a new ServicePic.</li>
+</ul>
 
 </body>
 </html>
