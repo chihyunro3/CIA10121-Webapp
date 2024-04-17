@@ -69,8 +69,8 @@
       #preview{
         border: 1px solid lightgray;
         display: inline-block;
-        width: 300px;
-        min-height: 450px;
+        width: 250px;
+        min-height: 375px;
         position: relative;
       }
       #preview span.text{
@@ -155,7 +155,7 @@
 
 </FORM>
 
-<script>
+<script type="text/javascript">
 
 	window.addEventListener("load",function(e){
 	var the_form = document.getElementById("the_form");
@@ -212,11 +212,8 @@
 	    preview_el.innerHTML = `<span class="text">¹wÄý¹Ï</span></div>`;
 	  }
 	});
-	}
+}
 </script>
-
-
-
 
 </body>
 </html>

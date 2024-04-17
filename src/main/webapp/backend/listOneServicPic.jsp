@@ -1,10 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="fallelove.backend.model.*"%>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
   ServicePictureVO servicePictureVO = (ServicePictureVO) request.getAttribute("servicePictureVO"); 
-	//ServicePicServlet.java(Concroller), 存入req的empVO物件
+	//ServicePicServlet.java(Concroller), 存入req的servicePictureVO物件
+	String photoBase64 = (String) request.getAttribute("photoBase64");
 %>
 <!DOCTYPE html>
 <html>
@@ -66,7 +68,7 @@
 		<td>${servicePictureVO.recordNo}</td>
 		<td>					
 				<c:if test="${servicePictureVO.servicePic != null }">
-					<img src="data:image/png;base64,${Base64.getEncoder().encodeToString(servicePictureVO.servicePic)}" alt="客服圖片" width="100" ; height="100">
+					<img src="data:image/png;base64,${photoBase64}" alt="客服圖片" width="100" ; height="100">
 				</c:if>			
 		</td>
 	</tr>

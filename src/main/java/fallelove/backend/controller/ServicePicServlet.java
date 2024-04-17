@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
+import org.apache.commons.io.IOUtils;
+
 import fallelove.backend.model.*;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
@@ -116,32 +118,12 @@ if ("insert".equals(action)) { // 來自addEmp.jsp的請求
 			InputStream in = req.getPart("servicePic").getInputStream();
 			BufferedInputStream bis = new BufferedInputStream(in);
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			
-			try {
-				if(in != null) {
-					
-					byte[] buf = in.readAllBytes();
-					int len;
-					while((len = bis.read(buf)) != -1) {
-						os.write(buf, 0 ,len);
-					}
-					servicePic = os.toByteArray();					
-				}
-				
-			}catch(IOException ie) {
-				System.err.print(ie);
-			}finally {
-				in.close();
-				bis.close();
-				os.close();
-			}
-			
 
 			ServicePictureVO servicePictureVO = new ServicePictureVO();
 			
 			servicePictureVO.setServicePicNo(servicePicNo);
 			servicePictureVO.setRecordNo(recordNo);
-			servicePictureVO.setServicePic(servicePic);
+			servicePictureVO.setServicePic(IOUtils.toByteArray(in));
 		
 
 				// Send the use back to the form, if there were errors
@@ -155,7 +137,7 @@ req.setAttribute("servicePictureVO", servicePictureVO); // 含有輸入格式錯
 				
 				/***************************2.開始新增資料***************************************/
 				ServicePictureService servicePictureServiceSvc = new ServicePictureService();
-				servicePictureVO = servicePictureServiceSvc.addServicePicture(servicePicNo, recordNo, servicePic);
+				servicePictureVO = servicePictureServiceSvc.addServicePicture(servicePictureVO);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/backend/listAllServicePic.jsp";

@@ -7,63 +7,55 @@ import java.sql.*;
 import java.util.*;
 import java.io.*;
 
-
-public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
+public class ServicePictureJDBCDAO implements ServicePictureDAO_interface {
 	String driver = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/fallElove";
 	String userid = "root";
 	String password = "12345";
-	
-	private static final String INSERT_STMT =
-		"INSERT INTO ServicePicture (servicePicNo, recordNo, servicePic) VALUES (?, ?, ?);";
-	private static final String GET_ALL_STMT = 
-		"SELECT servicePicNo, recordNo, servicePic FROM ServicePicture order by servicePicNo;";
-	private static final String GET_PK_STMT =
-		"SELECT servicePicNo, recordNo, servicePic FROM ServicePicture where servicePicNo = ?;";
-	private static final String GET_RECORD_STMT =
-		"SELECT servicePicNo, recordNo, servicePic FROM ServicePicture where recordNo = ?;";
-	private static final String UPDATE = 
-		"UPDATE ServicePicture set recordNo=?, servicePic=? where servicePicNo = ?;";
-	
-	
+
+	private static final String INSERT_STMT = "INSERT INTO ServicePicture (servicePicNo, recordNo, servicePic) VALUES (?, ?, ?);";
+	private static final String GET_ALL_STMT = "SELECT servicePicNo, recordNo, servicePic FROM ServicePicture order by servicePicNo;";
+	private static final String GET_PK_STMT = "SELECT servicePicNo, recordNo, servicePic FROM ServicePicture where servicePicNo = ?;";
+	private static final String GET_RECORD_STMT = "SELECT servicePicNo, recordNo, servicePic FROM ServicePicture where recordNo = ?;";
+	private static final String UPDATE = "UPDATE ServicePicture set recordNo=?, servicePic=? where servicePicNo = ?;";
+
 	@Override
 	public void insert(ServicePictureVO servicePictureVO) {
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(INSERT_STMT);
-			
+
 			pstmt.setInt(1, servicePictureVO.getServicePicNo());
 			pstmt.setInt(2, servicePictureVO.getRecordNo());
 			pstmt.setBytes(3, servicePictureVO.getServicePic());
-			
+
 			pstmt.executeUpdate();
 			System.out.println("新增成功");
-			
-		}catch(SQLException se) {
-			throw new RuntimeException("A database error occured." 
-					+ se.getMessage());
-		}catch(Exception e) {
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured." + se.getMessage());
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			if(pstmt != null) {
+		} finally {
+			if (pstmt != null) {
 				try {
 					pstmt.close();
-				}catch(SQLException se) {
+				} catch (SQLException se) {
 					se.printStackTrace(System.err);
 				}
 			}
 			if (con != null) {
 				try {
 					con.close();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace(System.err);
 				}
-				
+
 			}
 		}
 	}
@@ -72,144 +64,139 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 	public void update(ServicePictureVO servicePictureVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
-		
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(UPDATE);
-			
+
 			pstmt.setInt(1, servicePictureVO.getRecordNo());
 			pstmt.setBytes(2, servicePictureVO.getServicePic());
 			pstmt.setInt(3, servicePictureVO.getServicePicNo());
-			
+
 			pstmt.executeUpdate();
 			System.out.println("修改成功");
-			
-		}catch(SQLException se) {
-			throw new RuntimeException("A database error occured." 
-					+ se.getMessage());
-		}catch(Exception e) {
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured." + se.getMessage());
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			if(pstmt != null) {
+		} finally {
+			if (pstmt != null) {
 				try {
 					pstmt.close();
-				}catch(SQLException se) {
+				} catch (SQLException se) {
 					se.printStackTrace(System.err);
 				}
 			}
 			if (con != null) {
 				try {
 					con.close();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace(System.err);
 				}
-				
+
 			}
 		}
-		
+
 	}
 
 	@Override
 	public ServicePictureVO findByPrimaryKey(Integer servicePicNo) {
-		
+
 		ServicePictureVO servicePictureVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(GET_PK_STMT);
-			
+
 			pstmt.setInt(1, servicePicNo);
 			rs = pstmt.executeQuery();
-			
-			
+
 			while (rs.next()) {
 				servicePictureVO = new ServicePictureVO();
-				
+
 				servicePictureVO.setServicePicNo(rs.getInt("servicePicNo"));
 				servicePictureVO.setRecordNo(rs.getInt("recordNo"));
 				servicePictureVO.setServicePic(rs.getBytes("servicePic"));
 //				InputStream inputStream = rs.getBinaryStream("servicePic");
 //				Files.copy(inputStream, Path.of("pic" + servicePicNo + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
 //				Files.copy(rs.getBytes("servicePic"), Path, StandardCopyOption.REPLACE_EXISTING);
-				
+
 			}
-		}catch(SQLException se) {
-			throw new RuntimeException("A database error occured." 
-					+ se.getMessage());
-		}catch(Exception e) {
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured." + se.getMessage());
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			if(pstmt != null) {
+		} finally {
+			if (pstmt != null) {
 				try {
 					pstmt.close();
-				}catch(SQLException se) {
+				} catch (SQLException se) {
 					se.printStackTrace(System.err);
 				}
 			}
 			if (con != null) {
 				try {
 					con.close();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace(System.err);
 				}
-				
+
 			}
-		}		
-		
+		}
+
 		return servicePictureVO;
 	}
-	
+
 	@Override
 	public ServicePictureVO findByRecordNo(Integer recordNo) {
 		ServicePictureVO servicePictureVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(GET_RECORD_STMT);
-			
+
 			pstmt.setInt(2, recordNo);
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				servicePictureVO = new ServicePictureVO();
 				servicePictureVO.setServicePicNo(rs.getInt("servicePicNo"));
 				servicePictureVO.setRecordNo(rs.getInt("recordNo"));
 				servicePictureVO.setServicePic(rs.getBytes("servicePic"));
-				
+
 			}
-		}catch(SQLException se) {
-			throw new RuntimeException("A database error occured." 
-					+ se.getMessage());
-		}catch(Exception e) {
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured." + se.getMessage());
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			if(pstmt != null) {
+		} finally {
+			if (pstmt != null) {
 				try {
 					pstmt.close();
-				}catch(SQLException se) {
+				} catch (SQLException se) {
 					se.printStackTrace(System.err);
 				}
 			}
 			if (con != null) {
 				try {
 					con.close();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace(System.err);
 				}
-				
+
 			}
-		}		
-		
+		}
+
 		return servicePictureVO;
 	}
 
@@ -217,49 +204,47 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 	public List<ServicePictureVO> getAll() {
 		List<ServicePictureVO> list = new ArrayList<ServicePictureVO>();
 		ServicePictureVO servicePictureVO = null;
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userid, password);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				servicePictureVO = new ServicePictureVO();
 				servicePictureVO.setServicePicNo(rs.getInt("servicePicNo"));
 				servicePictureVO.setRecordNo(rs.getInt("recordNo"));
 				servicePictureVO.setServicePic(rs.getBytes("servicePic"));
-				
-				
+
 				list.add(servicePictureVO);
-			}		
-			
-		}catch(SQLException se) {
-			throw new RuntimeException("A database error occured." 
-					+ se.getMessage());
-		}catch(Exception e) {
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured." + se.getMessage());
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			if(pstmt != null) {
+		} finally {
+			if (pstmt != null) {
 				try {
 					pstmt.close();
-				}catch(SQLException se) {
+				} catch (SQLException se) {
 					se.printStackTrace(System.err);
 				}
 			}
 			if (con != null) {
 				try {
 					con.close();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace(System.err);
 				}
-				
+
 			}
-		}				
+		}
 		return list;
 	}
 
@@ -268,54 +253,49 @@ public class ServicePictureJDBCDAO implements ServicePictureDAO_interface{
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-	
+
 	public static byte[] getPictureByteArray(String path) throws IOException {
 		FileInputStream fis = new FileInputStream(path);
-		byte [] buffer = new byte[fis.available()];
+		byte[] buffer = new byte[fis.available()];
 		fis.read(buffer);
 		fis.close();
 		return buffer;
 	}
-	
+
 	public static void main(String[] args) throws IOException {
-		
+
 		ServicePictureJDBCDAO dao = new ServicePictureJDBCDAO();
-		
-		//INSERT
+
+		// INSERT
 //		ServicePictureVO picVO1 = new ServicePictureVO();
 //		picVO1.setServicePicNo(25);
 //		picVO1.setRecordNo(8);
 //		picVO1.setServicePic(getPictureByteArray("src/main/webapp/backend/images/defectclothes.jpg"));
 //		dao.insert(picVO1);
 
-		
-		//UPDATE
+		// UPDATE
 		ServicePictureVO picVO2 = new ServicePictureVO();
 		picVO2.setServicePicNo(10);
 		picVO2.setRecordNo(4);
 		picVO2.setServicePic(getPictureByteArray("src/main/webapp/backend/images/defectclothes.jpg"));
-		
+
 		dao.update(picVO2);
-		
-		//findByPrimaryKey
+
+		// findByPrimaryKey
 		ServicePictureVO picVO3 = dao.findByPrimaryKey(10);
 		System.out.println(picVO3.getServicePicNo() + ",");
 		System.out.println(picVO3.getRecordNo() + ",");
-		
-		
+
 //		System.out.println(picVO3.getServicePic() + ","); //印出來的是記憶體位址。
 		System.out.println("Image saved");
 //		思考1:如何動態取得圖片路徑
 //		思考2:客服紀錄圖片不一定每筆都有，且不一定同筆紀錄只有一張照片，可能有多張，如何依序存取方便動態取得?
-		
-		//getAll
+
+		// getAll
 		List<ServicePictureVO> list = dao.getAll();
-		for(var element : list) {
+		for (var element : list) {
 			System.out.println(element);
 		}
-		
-		
-		
-		
-	}	
+
+	}
 }

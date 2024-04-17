@@ -1,5 +1,6 @@
 package fallelove.backend.model;
 
+import java.io.InputStream;
 import java.util.List;
 
 public class ServicePictureService {
@@ -10,13 +11,8 @@ public class ServicePictureService {
 		dao = new ServicePictureJDBCDAO();
 	}
 	
-	public ServicePictureVO addServicePicture(Integer servicePicNo, Integer recordNo, byte[] servicePic) {
-		
-		ServicePictureVO servicePictureVO = new ServicePictureVO();
-		
-		servicePictureVO.setServicePicNo(servicePicNo);
-		servicePictureVO.setRecordNo(recordNo);
-		servicePictureVO.setServicePic(servicePic);
+	public ServicePictureVO addServicePicture(ServicePictureVO servicePictureVO) {
+
 		dao.insert(servicePictureVO);
 		
 		return servicePictureVO;
