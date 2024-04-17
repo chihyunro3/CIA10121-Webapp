@@ -88,7 +88,6 @@ public class CouponServlet extends HttpServlet{
 							"&coupName="+couponVO.getCoupName()+
 							"&coupCond="+couponVO.getCoupCond()+
 							"&coupDisc="+couponVO.getCoupDisc()+
-							"&coupAddDate="+couponVO.getCoupAddDate()+
 							"&coupExpDate="+couponVO.getCoupExpDate()+
 							"&coupRelDate="+couponVO.getCoupRelDate()+
 							"&coupRelStat="+couponVO.getCoupRelStat();
@@ -102,7 +101,7 @@ public class CouponServlet extends HttpServlet{
 			req.setAttribute("errorMsgs", errorMsgs);
 		
 		/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
-			Integer coupNo = Integer.valueOf(req.getParameter("coupNo").trim());
+			Integer coupNo = Integer.valueOf(req.getParameter("coupNo"));
 			
 			String coupName = req.getParameter("coupName");
 			if (coupName == null || coupName.trim().length() == 0) {
