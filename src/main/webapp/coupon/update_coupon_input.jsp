@@ -93,11 +93,7 @@
 		<td>發放日期:</td>
 		<td><input type="TEXT" id="rel_date" name="coupRelDate"   value="${param.coupRelDate}" size="45"/></td>
 	</tr>
-	<tr>
-		<td>發放狀態:</td>
-		<td><input type="TEXT" name="coupRelStat"   value="${param.coupRelStat}" size="45"/></td>
-	</tr>
-
+</table>
 <%-- 	<jsp:useBean id="deptSvc" scope="page" class="com.dept.model.DeptService" /> --%>
 <!-- 	<tr> -->
 <!-- 		<td>部門:<font color=red><b>*</b></font></td> -->
@@ -108,7 +104,14 @@
 <!-- 		</select></td> -->
 <!-- 	</tr> -->
 
-</table>
+
+<b>選擇發放狀態:</b>
+       <select size="1" name="coupRelStat">
+<!--           <option value="">請選擇 -->
+          <option value="${1}">已發放
+          <option value="${0}" selected>未發放
+       </select>
+<br>
 <%-- <jsp:useBean id="couponSvc" scope="page" class="fallelove.coupon.model.CouponService" /> --%>
 <!-- <b>選擇發放狀態:</b> -->
 <!--        <select size="1" name="coupRelStat"> -->
@@ -118,8 +121,9 @@
 <!--        </select> -->
 <br>
 <input type="hidden" name="action" value="update">
-<input type="hidden" name="empno" value="${param.coupNo}">
-<input type="submit" value="送出修改"></FORM>
+<input type="hidden" name="coupNo" value="${param.coupNo}">
+<input type="submit" value="送出修改">
+</FORM>
 
 <% 
   java.sql.Date coupExpDate = null;

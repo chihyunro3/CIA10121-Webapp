@@ -54,15 +54,15 @@
 
 <h3>資料新增:</h3>
 
-<%-- 錯誤表列 --%>
-<%-- <c:if test="${not empty errorMsgs}"> --%>
-<!-- 	<font style="color:red">請修正以下錯誤:</font> -->
-<!-- 	<ul> -->
-<%-- 		<c:forEach var="message" items="${errorMsgs}"> --%>
-<%-- 			<li style="color:red">${message.value}</li> --%>
-<%-- 		</c:forEach> --%>
-<!-- 	</ul> -->
-<%-- </c:if> --%>
+錯誤表列
+<c:if test="${not empty errorMsgs}">
+	<font style="color:red">請修正以下錯誤:</font>
+	<ul>
+		<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message.value}</li>
+		</c:forEach>
+	</ul>
+</c:if>
 
 <FORM METHOD="post" ACTION="couponServlet.do" name="form1">
 <table>
@@ -90,9 +90,9 @@
 <jsp:useBean id="couponSvc" scope="page" class="fallelove.coupon.model.CouponService" />
 <b>選擇發放狀態:</b>
        <select size="1" name="coupRelStat">
-         <c:forEach var="couponVO" items="${couponSvc.all}" > 
-          <option value="${couponVO.coupRelStat}">${couponVO.coupRelStat}
-         </c:forEach>   
+<!--           <option value="">請選擇 -->
+          <option value="${1}">已發放
+          <option value="${0}" selected>未發放
        </select>
 <br>
 <input type="hidden" name="action" value="insert">
